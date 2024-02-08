@@ -1,0 +1,82 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar menus_tags %}
+
+{% get_menu "main" as navigation %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {{page.title}}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {# Force all links in the live preview panel to be opened in a new tab #}
+        {% if request.in_preview_panel %}
+        <base target="_blank">
+        {% endif %}
+
+        {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/sevendays_v2.css' %}">
+
+        {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+        <header>
+            {% image settings.site_settings.hero.hero_one fill-800x200 class="hero" %}
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a href="/" class="nav-link">
+                            Home
+                        </a>
+                    </li>
+    
+                    {% for item in navigation.menu_items.all %}
+                        <li>
+                            <a href="{{ item.link }}" class="nav-link" {% if item.open_in_new_tab %} target="_blank" {% endif %}>
+                                {{ item.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+    
+            </div>
+        </header>
+        <br class="clear-fix">
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            {% if settings.site_settings.SocialMediaSettings.facebook %}
+                <a href={{ settings.site_settings.SocialMediaSettings.facebook }} target=”_blank” style="color: #fff;">
+                    {% image settings.site_settings.SocialMediaSettings.facebook_icon fill-40x40 %}
+                </a>
+            {% endif %}
+            {% if settings.site_settings.SocialMediaSettings.instagram %}
+                <a href={{ settings.site_settings.SocialMediaSettings.instagram }} target=”_blank” style="color: #fff;">
+                    {% image settings.site_settings.SocialMediaSettings.instagram_icon fill-40x40 %}
+                </a>
+            {% endif %}
+            
+            {% if settings.site_settings.SocialMediaSettings.youtube %}
+                <a href={{ settings.site_settings.SocialMediaSettings.youtube }} target=”_blank” style="color: #fff;">
+                    {% image settings.site_settings.SocialMediaSettings.youtube_icon fill-57x40 %}
+                </a>
+            {% endif %}
+            <br class="clear-fix">
+
+            
+        </footer>
+        {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/sevendays_v2.js' %}"></script>
+
+        {% block extra_js %}
+        {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block content %}
+    <h1>
+        Hello Music Lovers!
+    </h1>
+    <h3>
+        {{ page.banner_title }}
+    </h3>
+    {% image page.main_image fill-800x450 class="hero" %}
+    <p class="mt10">
+        {{ page.body }}
+    </p>
+
+    {% image page.secondary_image fill-800x450 class="hero" %}
+
+    <br class="clear-fix">
+{% endblock content %}
